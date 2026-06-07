@@ -1,5 +1,5 @@
 import React from 'react';
-import EcoSystem from '../../../../public/assets/ecosystem.png';
+import EcoSystem from '../../../assets/ecosystem.png';
 import TextBlock from './TextBlock';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Link from '@mui/material/Link';

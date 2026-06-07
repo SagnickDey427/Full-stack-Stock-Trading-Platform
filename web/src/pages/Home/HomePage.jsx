@@ -8,7 +8,7 @@ import OpenAccount from '../../components/OpenAccount'
 
 export default function HomePage() {
   return (
-    <div className='flex flex-col justify-center gap-8 items-center lg:max-w-[90%] px-auto mx-auto'>
+    <div className='flex flex-col justify-center gap-10 items-center lg:max-w-[90%] px-auto mx-auto'>
         <Hero/>
         <Awards/>
         <Education/>

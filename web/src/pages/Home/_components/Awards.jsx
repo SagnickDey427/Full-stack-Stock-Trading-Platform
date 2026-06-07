@@ -1,6 +1,6 @@
 import React from 'react'
-import Award from '../../../../public/assets/largestBroker.svg'
-import PressLogos from '../../../../public/assets/pressLogos.png'
+import Award from '../../../assets/largestBroker.svg'
+import PressLogos from '../../../assets/pressLogos.png'
 
 export default function Awards() {
   return (
