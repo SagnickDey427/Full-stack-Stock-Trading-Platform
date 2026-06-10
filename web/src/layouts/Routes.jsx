@@ -5,6 +5,7 @@ import AboutPage from "../pages/About/AboutPage.jsx";
 import PricingPage from "../pages/Pricing/PricingPage.jsx";
 import ProductsPage from "../pages/Products/ProductsPage.jsx";
 import SupportPage from "../pages/Support/SupportPage.jsx";
+import signupPage from "../features/authentication/signupPage.jsx";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -15,6 +16,7 @@ const router = createBrowserRouter(
                 <Route path='pricing' element={<PricingPage/>}/>
                 <Route path='products' element={<ProductsPage/>}/>
                 <Route path='support' element={<SupportPage/>}/>
+                <Route path='auth/signup' element={<signupPage/>}/>
             </Route>
         </>
     )
