@@ -58,10 +58,10 @@ const FOOTER_SECTIONS = [
 
 export default function Footer() {
   return (
-    <footer className='mx-auto border-t border-gray-500 pt-6 lg:max-w-[90%] px-auto'>
+    <footer className='mx-auto border-t border-zinc-300 pt-6  px-auto bg-zinc-100'>
       <div className='grid grid-cols-1 md:grid-cols-4 ml-4 gap-4'>
-        <div className='flex flex-col gap-6 '>
-          <img src={ZerodhaLogo} alt='Zerodha' className='w-[140px]' />
+        <div className='flex flex-col gap-6 lg:pl-[5rem]'>
+          <img src={ZerodhaLogo} alt='Zerodha' className='w-[140px] ' />
           <p>© 2010 - 2026, Zerodha Broking Ltd.</p>
           <p>All rights reserved.</p>
           <div className='flex flex-row gap-3 border-b border-slate-300 w-[50%]'>
@@ -80,9 +80,9 @@ export default function Footer() {
             <img src={AppStore} alt="" className='w-[121px]' />
           </div>
         </div>
-        {FOOTER_SECTIONS.map((footerCol) => {
+        {FOOTER_SECTIONS.map((footerCol,index) => {
           return (
-            <div className='flex flex-col gap-2 text-slate-700'>
+            <div key={index} className='flex flex-col gap-2 text-slate-700'>
               <p className='text-lg mb-4 font-medium'>{footerCol.title}</p>
               {footerCol.links.map((link) => {
                 return (
