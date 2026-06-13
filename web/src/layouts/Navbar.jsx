@@ -19,7 +19,7 @@ export default function Navbar() {
     setAnchorEl(null);
   };
   return (
-    <div className='py-8 flex flex-row justify-around items-center max-h-[40px] max-w-screen px-4 mb-10 border-b border-slate-300'>
+    <div className='py-8 flex flex-row justify-around items-center max-h-[40px] max-w-screen px-4  border-b border-slate-300'>
       <div>
         <Link href='http://localhost:5173/'><img src={zerodhaLogo} alt="Zerodha" className='max-w-[110px]' /></Link >
       </div>

@@ -5,7 +5,7 @@ import twentyImg from '../../../assets/intradayTrades.svg';
 
 export default function Hero() {
   return (
-    <div>
+    <div className='mt-10'>
       <h1 className='text-2xl md:text-3xl font-semibold  text-black text-center mx-auto px-auto'>Charges</h1>
       <h2 className='text-lg md:text-xl  text-slate-400 text-center mb-40'>List of all charges and taxes</h2>
       <section className='grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16'>
