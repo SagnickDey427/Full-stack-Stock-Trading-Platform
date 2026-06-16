@@ -11,7 +11,7 @@ const seedPosition = async (req,res)=>{
         const insertedPos = await PositionModel.insertMany(positions);
         return res.status(201).json({
             success:true,
-            message:"Data added succesfuly!",
+            message:"Positions Data added succesfuly!",
             positionsAdded:insertedPos.length
         });
 
@@ -33,7 +33,7 @@ const seedHolding = async (req,res)=>{
         const insertedHoldings = await HoldingsModel.insertMany(holdings);
         return res.status(201).json({
             success:true,
-            message:"Data added succesfuly!",
+            message:"Holdings Data added succesfuly!",
             positionsAdded:insertedHoldings.length
         });
 

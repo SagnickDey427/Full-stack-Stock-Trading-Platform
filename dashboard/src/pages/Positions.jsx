@@ -1,15 +1,40 @@
-import React from "react";
-import { positions , calculatedPositions } from "../data/PositionsData.js";
+import React, { useState, useEffect, useMemo } from "react";
+import axios from 'axios';
 
 const Positions = () => {
 
+  const [positions, setPositions] = useState([]);
+  const [isLoading, setIsloading] = useState(true);
+
+  useEffect(() => {
+    const fetchPositions = async () => {
+      try {
+        const resp = await axios.get('http://localhost:3002/api/portfolio/positions');
+        setPositions(resp.data);
+      } catch (err) {
+        console.log(`Error in fetching positions data : ${err}`);
+      } finally {
+        setIsloading(false);
+      }
+    }
+
+    fetchPositions();
+  }, []);
+
   // Calculate overall Total P&L (Mark-to-Market)
-  const totalPnL = calculatedPositions.reduce((acc, curr) => acc + curr.pnl, 0);
+  const totalPnL = positions.reduce((acc, curr) => acc + curr.pnl, 0);
   const isTotalProfit = totalPnL >= 0;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-64 bg-white rounded-lg shadow-sm border border-gray-200">
+        <p className="text-gray-500 font-medium">Loading portfolio data...</p>
+      </div>
+    )
+  }
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 md:p-6">
-      
+
       {/* 1. Header */}
       <h3 className="text-lg font-bold text-gray-800 mb-4">
         Positions ({positions.length})
@@ -30,47 +55,46 @@ const Positions = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {calculatedPositions.map((pos) => {
+            {positions.map((pos) => {
               const isProfit = pos.pnl >= 0;
               const isChgUp = pos.chg >= 0;
 
               return (
                 <tr key={pos.id} className="hover:bg-gray-50 transition-colors">
-                  
+
                   {/* Product Badge */}
                   <td className="px-4 py-4 whitespace-nowrap">
-                    <span className={`text-xs font-bold px-2 py-1 rounded ${
-                      pos.product === 'MIS' ? 'bg-orange-50 text-orange-600' : 'bg-purple-50 text-purple-600'
-                    }`}>
+                    <span className={`text-xs font-bold px-2 py-1 rounded ${pos.product === 'MIS' ? 'bg-orange-50 text-orange-600' : 'bg-purple-50 text-purple-600'
+                      }`}>
                       {pos.product}
                     </span>
                   </td>
-                  
+
                   {/* Instrument */}
                   <td className="px-4 py-4 whitespace-nowrap text-sm font-bold text-gray-800">
                     {pos.instrument}
                   </td>
-                  
+
                   {/* Quantity */}
                   <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-700 text-right">
                     {pos.qty}
                   </td>
-                  
+
                   {/* Average Price */}
                   <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-700 text-right">
                     ₹{pos.avg.toFixed(2)}
                   </td>
-                  
+
                   {/* Last Traded Price (LTP) */}
                   <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-700 text-right">
                     ₹{pos.ltp.toFixed(2)}
                   </td>
-                  
+
                   {/* P&L (Dynamic Color) */}
                   <td className={`px-4 py-4 whitespace-nowrap text-sm font-medium text-right ${isProfit ? 'text-green-600' : 'text-red-600'}`}>
                     {isProfit ? '+' : ''}{pos.pnl.toFixed(2)}
                   </td>
-                  
+
                   {/* Change % (Dynamic Color) */}
                   <td className={`px-4 py-4 whitespace-nowrap text-sm font-medium text-right ${isChgUp ? 'text-green-600' : 'text-red-600'}`}>
                     {isChgUp ? '+' : ''}{pos.chg.toFixed(2)}%

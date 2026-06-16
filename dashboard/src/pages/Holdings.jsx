@@ -1,21 +1,60 @@
-import React from "react";
-import { holdings , getCalculatedHoldings } from "../data/HoldingsData.js";
+import React, { useState, useEffect, useMemo } from "react";
+import { getCalculatedHoldings } from "../utils/calculateHoldings.js";
+import axios from 'axios';
 
 const Holdings = () => {
-  const calculatedHoldings = getCalculatedHoldings();
+  const [holdings, setHoldings] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // 1. Declare the async function INSIDE the useEffect
+    const fetchHoldings = async () => {
+      try {
+        const response = await axios.get('http://localhost:3002/api/portfolio/holdings');
+        // 2. Only store the raw data in state
+        setHoldings(response.data);
+      } catch (err) {
+        // Don't leave catch blocks empty! At least log it so you can debug.
+        console.error("Error fetching holdings:", err);
+      } finally {
+        // Stop the loading spinner whether it succeeded or failed
+        setIsLoading(false);
+      }
+    };
+
+    // 3. Call the function
+    fetchHoldings();
+  }, []);
+
+  // 4. Derive the calculated holdings dynamically. 
+  // useMemo ensures this math only runs when 'holdings' actually changes.
+  const calculatedHoldings = useMemo(() => {
+    return getCalculatedHoldings(holdings);
+  }, [holdings]);
 
   // Calculate overall portfolio totals
-  const totalInvestment = calculatedHoldings.reduce((acc, curr) => acc + curr.totalInvested, 0);
-  const currentTotalValue = calculatedHoldings.reduce((acc, curr) => acc + curr.curVal, 0);
+  const totalInvestment = calculatedHoldings.reduce((acc, curr) => acc + (curr.totalInvested || 0), 0);
+  const currentTotalValue = calculatedHoldings.reduce((acc, curr) => acc + (curr.curVal || 0), 0);
   const totalPnL = currentTotalValue - totalInvestment;
-  const totalPnLPercent = (totalPnL / totalInvestment) * 100;
+  
+  // Protect against NaN (0/0) before the data loads
+  const totalPnLPercent = totalInvestment > 0 ? (totalPnL / totalInvestment) * 100 : 0;
+
+  // 5. Show a loading state while fetching from Yahoo/MongoDB
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-64 bg-white rounded-lg shadow-sm border border-gray-200">
+        <p className="text-gray-500 font-medium">Loading portfolio data...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 md:p-6">
       
       {/* 1. Header */}
       <h3 className="text-lg font-bold text-gray-800 mb-4">
-        Holdings ({holdings.length})
+        Holdings ({calculatedHoldings.length})
       </h3>
 
       {/* 2. Holdings Table */}
@@ -53,12 +92,12 @@ const Holdings = () => {
                   
                   {/* Net Change Column - Colored */}
                   <td className={`px-4 py-4 whitespace-nowrap text-sm font-medium text-right ${isProfit ? 'text-green-600' : 'text-red-600'}`}>
-                    {isProfit ? '+' : ''}{stock.netChgPercent.toFixed(2)}%
+                    {isProfit ? '+' : ''}{(stock.netChgPercent || 0).toFixed(2)}%
                   </td>
                   
                   {/* Day Change Column - Colored */}
                   <td className={`px-4 py-4 whitespace-nowrap text-sm font-medium text-right ${isDayUp ? 'text-green-600' : 'text-red-600'}`}>
-                    {isDayUp ? '+' : ''}{stock.dayChg.toFixed(2)}%
+                    {isDayUp ? '+' : ''}{(stock.dayChg || 0).toFixed(2)}%
                   </td>
                 </tr>
               );
