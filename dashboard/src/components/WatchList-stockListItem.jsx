@@ -2,7 +2,7 @@ import React from "react";
 import PriceAndPercentage from "./WatchList-pricePercentage.jsx";
 import BuySellOptions from "./WatchList-buySellOptions.jsx";
 
-function StockItem({handleRowClick, stock, isActive}) {
+function StockItem({handleRowClick, stock, isActive, onOpenModal}) {
   return <li
     onClick={() => handleRowClick(stock.id)}
     key={stock.id}
@@ -18,7 +18,7 @@ function StockItem({handleRowClick, stock, isActive}) {
 
     {/* Right Side (Hover State): Action Buttons */}
     {/* hidden group-hover:flex makes this appear ONLY when the row is hovered */}
-    <BuySellOptions isActive={isActive}/>
+    <BuySellOptions isActive={isActive} stockName={stock.name} currentltp={stock.price} onOpenModal={onOpenModal}/>
   </li>;
 }
 

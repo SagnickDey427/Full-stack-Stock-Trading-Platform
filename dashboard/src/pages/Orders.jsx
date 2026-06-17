@@ -1,16 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-//Inport orer history
-import {orders} from '../data/OrderHistory.js';
+import axios from 'axios';
 
 // Material UI Icons for a polished empty state
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 
 const Orders = () => {
-  // Dummy data representing past transactions
-  // Try changing this to an empty array [] to see the "Empty State" UI!
-  
+
+  const [orders, setOrders] = useState([]);
+  const [isLoading, setIsloading] = useState(true);
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const resp = await axios.get('http://localhost:3002/api/portfolio/orders');
+        setOrders(resp.data);
+      } catch (err) {
+
+      } finally {
+        setIsloading(false);
+      }
+    }
+
+    fetchOrders();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-64 bg-white rounded-lg shadow-sm border border-gray-200">
+        <p className="text-gray-500 font-medium">Loading Orders history...</p>
+      </div>
+    )
+  }
 
   // 1. EMPTY STATE: What renders if there are no orders
   if (orders.length === 0) {
@@ -32,7 +52,7 @@ const Orders = () => {
   // 2. POPULATED STATE: The Transaction History Table
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-      
+
       {/* Header Section */}
       <div className="px-6 py-4 border-b border-gray-200">
         <h2 className="text-lg font-bold text-gray-800">Order History</h2>
@@ -53,60 +73,67 @@ const Orders = () => {
               <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center">Status</th>
             </tr>
           </thead>
-          
+
           {/* Table Body */}
           <tbody className="divide-y divide-gray-200">
-            {orders.map((order) => (
-              <tr key={order.id} className="hover:bg-gray-50 transition-colors">
-                
-                {/* Date/Time */}
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {order.date}
-                </td>
-                
-                {/* Stock Name */}
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="text-sm font-bold text-gray-800">{order.stock}</span>
-                </td>
-                
-                {/* Buy/Sell Badge */}
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span
-                    className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-bold ${
-                      order.type === "BUY"
+            {orders.map((order) => {
+              const rawDate = order.createdAt;
+              const timeOnly = new Date(rawDate).toLocaleTimeString('en-IN', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true // Sets it to AM/PM format
+              });
+              return (
+                <tr key={order.id} className="hover:bg-gray-50 transition-colors">
+
+                  {/* Date/Time */}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {timeOnly}
+                  </td>
+
+                  {/* Stock Name */}
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className="text-sm font-bold text-gray-800">{order.stock}</span>
+                  </td>
+
+                  {/* Buy/Sell Badge */}
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span
+                      className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-bold ${order.type === "BUY"
                         ? "bg-blue-100 text-blue-700"
                         : "bg-orange-100 text-orange-700"
-                    }`}
-                  >
-                    {order.type}
-                  </span>
-                </td>
-                
-                {/* Quantity */}
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 text-right">
-                  {order.qty}
-                </td>
-                
-                {/* Price */}
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 text-right">
-                  ₹{order.price.toFixed(2)}
-                </td>
-                
-                {/* Status Pill */}
-                <td className="px-6 py-4 whitespace-nowrap text-center">
-                  <span
-                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      order.status === "COMPLETED"
-                        ? "bg-green-100 text-green-800"
-                        : "bg-red-100 text-red-800"
-                    }`}
-                  >
-                    {order.status}
-                  </span>
-                </td>
+                        }`}
+                    >
+                      {order.type}
+                    </span>
+                  </td>
 
-              </tr>
-            ))}
+                  {/* Quantity */}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 text-right">
+                    {order.qty}
+                  </td>
+
+                  {/* Price */}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 text-right">
+                    ₹{order.price.toFixed(2)}
+                  </td>
+
+                  {/* Status Pill */}
+                  <td className="px-6 py-4 whitespace-nowrap text-center">
+                    <span
+                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${order.status === "COMPLETED"
+                        ? "bg-green-100 text-green-800"
+                        : order.status === "PENDING" ? "bg-yellow-400 text-orange-700" : "bg-red-100 text-red-800"
+                        }`}
+                    >
+                      {order.status}
+                    </span>
+                  </td>
+
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>
