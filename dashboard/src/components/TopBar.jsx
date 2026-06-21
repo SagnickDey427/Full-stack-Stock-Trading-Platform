@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext.jsx";
 
 //Port
 const PORT = "http://localhost:3000/";
@@ -11,6 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
 
 const TopBar = () => {
+  const { logout } = useAuth();
   // State to manage the MUI Mobile Menu dropdown
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -24,16 +26,16 @@ const TopBar = () => {
   };
   const navLinks = [
     { name: "Summary", path: PORT },
-    { name: "Orders", path: PORT +"orders"},
-    { name: "Holdings", path: PORT+"holdings" },
-    { name: "Positions", path: PORT+"positions" },
-    { name: "Funds", path: PORT+"funds" },
-    { name: "Profile", path:"#"},
+    { name: "Orders", path: PORT + "orders" },
+    { name: "Holdings", path: PORT + "holdings" },
+    { name: "Positions", path: PORT + "positions" },
+    { name: "Funds", path: PORT + "funds" },
+    { name: "Logout", path: "#", method: logout, isLogout: true },
   ];
 
   return (
     <div className="flex items-center justify-between px-6 py-3 bg-white border-b border-gray-200 shadow-sm w-full">
-      
+
       {/* 1. Left Side: Market Indices */}
       <div className="flex items-center space-x-6 md:space-x-8">
         {/* NIFTY 50 Block */}
@@ -57,15 +59,27 @@ const TopBar = () => {
 
       {/* 2. Right Side: Desktop Navigation (Hidden on Mobile) */}
       <nav className="hidden md:flex items-center space-x-6">
-        {navLinks.map((link) => (
-          <Link
+        {navLinks.map((link) => {
+          if (link.isLogout) {
+            return (<Link
+              key={link.name}
+              to={link.path}
+              className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors"
+              onClick={link.method}
+
+            >
+              {link.name}
+            </Link>)
+          }
+          return (<Link
             key={link.name}
             to={link.path}
             className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors"
+
           >
             {link.name}
-          </Link>
-        ))}
+          </Link>)
+        })}
       </nav>
 
       {/* 3. Right Side: Mobile Hamburger Menu (Hidden on Desktop) */}
@@ -80,7 +94,7 @@ const TopBar = () => {
         >
           <MenuIcon className="text-gray-800" />
         </IconButton>
-        
+
         {/* MUI Menu Component */}
         <Menu
           id="mobile-menu"

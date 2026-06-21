@@ -7,7 +7,7 @@ const yahooFinance = new YahooFinance();
 
 const getPositions = async (req, res) => {
     try {
-        const dbPositions = await PositionModel.find({});
+        const dbPositions = await PositionModel.find({owner:req.user});
 
         const hydratedPositions = await Promise.all(dbPositions.map(async (pos) => {
             try {
@@ -47,7 +47,7 @@ const getPositions = async (req, res) => {
 
 const getHoldings = async (req, res) => {
     try {
-        const dbHoldings = await HoldingsModel.find({});
+        const dbHoldings = await HoldingsModel.find({owner:req.user});
 
         const hydratedHoldings = await Promise.all(dbHoldings.map(async (hld) => {
             try {

@@ -1,8 +1,10 @@
 import React from "react";
+import { useAuth } from "../context/AuthContext";
 
 const Summary = () => {
+  const {user} = useAuth();
   // In a real application, you would pull this from your Authentication context/state
-  const userName = "Sagnick";
+  const userName = user.username || "Sagnick";
 
   return (
     <div className="max-w-6xl mx-auto pb-8">

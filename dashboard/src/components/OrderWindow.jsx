@@ -17,6 +17,8 @@ const OrderModal = ({ stockName, currentLtp, type, onClose, onOrderPlaced }) => 
                 type: type, // "BUY" or "SELL"
                 qty: Number(qty),
                 price: Number(price)
+            }, {
+                withCredentials: true
             });
 
             // Show notification/flash message to user using your frontend alert suite
@@ -26,7 +28,10 @@ const OrderModal = ({ stockName, currentLtp, type, onClose, onOrderPlaced }) => 
             onClose(); // Auto-close window
         } catch (err) {
             console.error("Order placement crash:", err);
-            alert("❌ Failed to place order. Check server connectivity.");
+            const backendMessage = err.response?.data?.message || "Failed to place order.";
+
+            // Show the actual reason to the user
+            alert(`❌ Trade Rejected: ${backendMessage}`);
         } finally {
             setIsProcessing(false);
         }
@@ -89,8 +94,8 @@ const OrderModal = ({ stockName, currentLtp, type, onClose, onOrderPlaced }) => 
                             type="submit"
                             disabled={isProcessing}
                             className={`flex-1 py-2 text-sm font-semibold text-white rounded-lg transition-colors cursor-pointer ${type === "BUY"
-                                    ? "bg-green-600 hover:bg-green-700"
-                                    : "bg-red-600 hover:bg-red-700"
+                                ? "bg-green-600 hover:bg-green-700"
+                                : "bg-red-600 hover:bg-red-700"
                                 } disabled:bg-gray-400`}
                         >
                             {isProcessing ? "Processing..." : `${type}`}

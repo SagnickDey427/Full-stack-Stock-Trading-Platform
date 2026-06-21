@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import {useAuth} from '../context/AuthContext.jsx';
+import AddFunds from "../components/AddFunds.jsx";
 
 // A small helper component to keep the data rows clean and consistent
 const DataRow = ({ label, value, highlighted = false, large = false }) => (
@@ -14,6 +16,8 @@ const DataRow = ({ label, value, highlighted = false, large = false }) => (
 );
 
 const Funds = () => {
+  const {user} = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="max-w-6xl mx-auto pb-8">
       
@@ -26,7 +30,7 @@ const Funds = () => {
         <div className="flex space-x-3 w-full sm:w-auto">
           <Link
             to="#"
-            className="flex-1 sm:flex-none text-center bg-green-500 text-white px-6 py-2.5 rounded font-bold hover:bg-green-600 transition-colors shadow-sm"
+            className="flex-1 sm:flex-none text-center bg-green-500 text-white px-6 py-2.5 rounded font-bold hover:bg-green-600 transition-colors shadow-sm" onClick={()=> setIsOpen(true)}
           >
             Add funds
           </Link>
@@ -38,6 +42,7 @@ const Funds = () => {
           </Link>
         </div>
       </div>
+      {isOpen ? <AddFunds onClose={()=> setIsOpen(false)}/>: null}
 
       {/* 2. Main Content Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -50,14 +55,14 @@ const Funds = () => {
 
           {/* Primary Metrics */}
           <div className="mb-6 bg-gray-50 p-4 rounded-lg border border-gray-100">
-            <DataRow label="Available margin" value="₹4,043.10" highlighted={true} large={true} />
+            <DataRow label="Available margin" value={`₹${user.funds}`} highlighted={true} large={true} />
             <DataRow label="Used margin" value="₹3,757.30" large={true} />
-            <DataRow label="Available cash" value="₹4,043.10" large={true} />
+            <DataRow label="Available cash" value={`₹${user.funds}`} large={true} />
           </div>
 
           {/* Secondary Metrics */}
           <div className="px-2">
-            <DataRow label="Opening Balance" value="4,043.10" />
+            <DataRow label="Opening Balance" value={`${user.funds}`} />
             <DataRow label="Payin" value="4064.00" />
             <DataRow label="SPAN" value="0.00" />
             <DataRow label="Delivery margin" value="0.00" />

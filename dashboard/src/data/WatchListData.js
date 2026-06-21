@@ -8,4 +8,4 @@
     { id: 6, name: "ZOMATO", price: 164.5, change: -1.2, percent: -0.72, isUp: false },
   ];
 
-  export {stocks};
+export {stocks};

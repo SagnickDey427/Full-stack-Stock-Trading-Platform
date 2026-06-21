@@ -12,10 +12,10 @@ const Orders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const resp = await axios.get('http://localhost:3002/api/portfolio/orders');
+        const resp = await axios.get('http://localhost:3002/api/portfolio/orders',{withCredentials:true});
         setOrders(resp.data);
       } catch (err) {
-
+        console.log(err);
       } finally {
         setIsloading(false);
       }
@@ -33,7 +33,7 @@ const Orders = () => {
   }
 
   // 1. EMPTY STATE: What renders if there are no orders
-  if (orders.length === 0) {
+  if (orders?.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-full min-h-[60vh] bg-white rounded-lg shadow-sm border border-gray-200">
         <ReceiptLongIcon className="text-gray-300 mb-4" style={{ fontSize: "64px" }} />
@@ -76,7 +76,7 @@ const Orders = () => {
 
           {/* Table Body */}
           <tbody className="divide-y divide-gray-200">
-            {orders.map((order) => {
+            {orders?.map((order) => {
               const rawDate = order.createdAt;
               const timeOnly = new Date(rawDate).toLocaleTimeString('en-IN', {
                 hour: '2-digit',

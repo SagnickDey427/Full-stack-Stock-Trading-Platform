@@ -24,8 +24,17 @@ export default function Navbar() {
         <Link href='http://localhost:5173/'><img src={zerodhaLogo} alt="Zerodha" className='max-w-[110px]' /></Link >
       </div>
       <div>
-        <ul className='hidden lg:block lg:flex flex-row justify-center gap-8'>
-          <li><Link href='#' underline="none" className='hover:!text-slate-700 transition-all duration-100 ease-in'>Signup</Link></li>
+        <ul className='[&>li]:cursor-pointer hidden lg:block lg:flex flex-row justify-center gap-8'>
+          <li>
+            <a href='http://localhost:3000/' className='hover:!text-slate-700 transition-all duration-100 ease-in'>dashboard</a>
+          </li>
+          <li>
+
+            <Link href='http://localhost:5173/auth/signup' underline="none" className='hover:!text-slate-700 transition-all duration-100 ease-in'>Signup</Link>
+          </li>
+          <li>
+            <Link href='http://localhost:5173/auth/login' underline="none" className='hover:!text-slate-700 transition-all duration-100 ease-in'>Login</Link>
+          </li>
           <li><Link underline="none" className='hover:!text-slate-700 transition-all duration-100 ease-in' href='http://localhost:5173/about'>About</Link ></li>
           <li><Link underline="none" className='hover:!text-slate-700 transition-all duration-100 ease-in' href='http://localhost:5173/pricing'>Pricing</Link ></li>
           <li><Link underline="none" className='hover:!text-slate-700 transition-all duration-100 ease-in' href='http://localhost:5173/products'>Products</Link ></li>
@@ -53,6 +62,8 @@ export default function Navbar() {
             }}
           >
             <MenuItem onClick={handleClose}><Link href='http://localhost:5173/auth/signup' underline="none" className='hover:!text-slate-700 transition-all duration-100 ease-in'>Signup</Link></MenuItem>
+            <MenuItem onClick={handleClose}><Link href='http://localhost:5173/auth/login' underline="none" className='hover:!text-slate-700 transition-all duration-100 ease-in'>LogIn</Link></MenuItem>
+            <MenuItem onClick={handleClose}><a href='http://localhost:3000/' underline="none" className='hover:!text-slate-700 transition-all duration-100 ease-in'>Dashboard</a></MenuItem>
             <MenuItem onClick={handleClose}><Link underline="none" className='hover:!text-slate-700 transition-all duration-100 ease-in' href='http://localhost:5173/about'>About</Link ></MenuItem>
             <MenuItem onClick={handleClose}><Link underline="none" className='hover:!text-slate-700 transition-all duration-100 ease-in' href='http://localhost:5173/pricing'>Pricing</Link ></MenuItem>
             <MenuItem onClick={handleClose}><Link underline="none" className='hover:!text-slate-700 transition-all duration-100 ease-in' href='http://localhost:5173/products'>Products</Link ></MenuItem>

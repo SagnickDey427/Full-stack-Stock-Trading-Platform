@@ -1,8 +1,8 @@
 const PositionModel = require('../models/PositionModel.js');
 const HoldingsModel = require('../models/HoldingModel.js');
 
-const {positions} = require('../../../dashboard/src/data/PositionsData.js'); 
-const {holdings} = require('../../../dashboard/src/data/HoldingsData.js');
+const {positions} = require('../data/PositionsData.js'); 
+const {holdings} = require('../data/HoldingsData.js');
 
 const seedPosition = async (req,res)=>{
     try{

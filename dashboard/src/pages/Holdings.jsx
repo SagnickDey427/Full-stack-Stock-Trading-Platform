@@ -10,7 +10,9 @@ const Holdings = () => {
     // 1. Declare the async function INSIDE the useEffect
     const fetchHoldings = async () => {
       try {
-        const response = await axios.get('http://localhost:3002/api/portfolio/holdings');
+        const response = await axios.get('http://localhost:3002/api/portfolio/holdings',{
+          withCredentials:true
+        });
         // 2. Only store the raw data in state
         setHoldings(response.data);
       } catch (err) {

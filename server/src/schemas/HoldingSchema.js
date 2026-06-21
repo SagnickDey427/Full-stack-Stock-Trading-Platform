@@ -1,6 +1,12 @@
+const mongoose = require('mongoose');
 const {Schema} = require('mongoose');
 
 const holdingSchema = new Schema({
+    owner:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User",
+        required:true
+    },
     instrument:{
         type:String,
         required:true

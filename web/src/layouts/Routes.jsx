@@ -5,7 +5,8 @@ import AboutPage from "../pages/About/AboutPage.jsx";
 import PricingPage from "../pages/Pricing/PricingPage.jsx";
 import ProductsPage from "../pages/Products/ProductsPage.jsx";
 import SupportPage from "../pages/Support/SupportPage.jsx";
-import signupPage from "../features/authentication/signupPage.jsx";
+import SignupPage from "../features/authentication/signupPage.jsx";
+import LoginPage from "../features/authentication/loginPage.jsx";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -16,7 +17,8 @@ const router = createBrowserRouter(
                 <Route path='pricing' element={<PricingPage/>}/>
                 <Route path='products' element={<ProductsPage/>}/>
                 <Route path='support' element={<SupportPage/>}/>
-                <Route path='auth/signup' element={<signupPage/>}/>
+                <Route path='auth/signup' element={<SignupPage/>}/>
+                <Route path='auth/login' element={<LoginPage/>}/>
             </Route>
         </>
     )

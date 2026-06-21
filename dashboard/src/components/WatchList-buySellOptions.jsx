@@ -8,7 +8,7 @@ function BuySellOptions({isActive,stockName, currentltp, onOpenModal}) {
     <button className="bg-blue-500 text-white text-xs font-bold px-3 py-1.5 rounded hover:bg-blue-600 transition" onClick={()=>{onOpenModal({name:stockName, ltp:currentltp, type:"BUY"}) }}>
       B
     </button>
-    <button className="bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded hover:bg-red-600 transition">
+    <button className="bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded hover:bg-red-600 transition" onClick={()=>{onOpenModal({name:stockName, ltp:currentltp, type:"SELL"}) }}>
       S
     </button>
     <button className="text-gray-400 hover:text-gray-800 transition">
