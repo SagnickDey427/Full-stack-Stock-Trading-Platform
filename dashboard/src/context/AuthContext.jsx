@@ -59,9 +59,10 @@ export const AuthProvider = ({ children }) => {
         checkUserSession();
     }, []);
 
+
     // We pass the user data, and a way to manually update it (like after a successful login)
     return (
-        <AuthContext.Provider value={{ user, setUser, isLoading, logout, updateFunds }}>
+        <AuthContext.Provider value={{ user, setUser, isLoading, logout, updateFunds}}>
             {/* If checking session, show nothing (or a spinner) to prevent UI flicker */}
             {isLoading ? (
                 <div className="h-screen w-screen flex items-center justify-center">

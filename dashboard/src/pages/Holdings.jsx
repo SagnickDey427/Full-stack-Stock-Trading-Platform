@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { getCalculatedHoldings } from "../utils/calculateHoldings.js";
 import axios from 'axios';
+import { VerticalGraph } from "../graphs/VerticalGraph.jsx";
 
 const Holdings = () => {
   const [holdings, setHoldings] = useState([]);
@@ -41,6 +42,23 @@ const Holdings = () => {
   
   // Protect against NaN (0/0) before the data loads
   const totalPnLPercent = totalInvestment > 0 ? (totalPnL / totalInvestment) * 100 : 0;
+
+  const labels = holdings.map((stock)=> stock.instrument);
+  const data = {
+    labels,
+    datasets:[
+      {
+        label:"Invested",
+        data:holdings.map((stock)=> stock.avgCost),
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+      {
+        label:"PnL",
+        data:calculatedHoldings.map((stock)=>stock.pnl),
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      }
+    ]
+  }
 
   // 5. Show a loading state while fetching from Yahoo/MongoDB
   if (isLoading) {
@@ -139,6 +157,8 @@ const Holdings = () => {
         </div>
 
       </div>
+
+      <VerticalGraph data= {data}/>
     </div>
   );
 };

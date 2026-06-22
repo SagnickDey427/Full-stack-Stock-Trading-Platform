@@ -31,7 +31,7 @@ const Summary = () => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between flex-grow gap-6">
             {/* Primary Metric (Left) */}
             <div className="flex-1">
-              <h3 className="text-3xl font-bold text-gray-800">₹3.74k</h3>
+              <h3 className="text-3xl font-bold text-gray-800">₹{user.funds}</h3>
               <p className="text-sm text-gray-500 font-medium mt-1">Margin available</p>
             </div>
 
