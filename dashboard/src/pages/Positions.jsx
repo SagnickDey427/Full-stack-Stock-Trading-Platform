@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo } from "react";
-import axios from 'axios';
+import { useState, useEffect} from "react";
+import apiClient from "../utils/apiClient.js";
 
 const Positions = () => {
 
@@ -9,7 +9,7 @@ const Positions = () => {
   useEffect(() => {
     const fetchPositions = async () => {
       try {
-        const resp = await axios.get('http://localhost:3002/api/portfolio/positions');
+        const resp = await apiClient.get('/portfolio/positions');
         setPositions(resp.data);
       } catch (err) {
         console.log(`Error in fetching positions data : ${err}`);

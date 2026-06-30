@@ -1,10 +1,10 @@
-import React from 'react'
 import Hero from './_components/Hero'
 import Awards from './_components/Awards'
 import Education from './_components/Education'
 import Pricing from './_components/Pricing'
 import Stats from './_components/Stats'
 import OpenAccount from '../../components/OpenAccount'
+import TestComponent from './_components/Test-rate-limiting'
 
 export default function HomePage() {
   return (
@@ -15,6 +15,7 @@ export default function HomePage() {
         <Pricing/>
         <Stats/>
         <OpenAccount/>
+        <TestComponent/>
     </div>
   )
 }

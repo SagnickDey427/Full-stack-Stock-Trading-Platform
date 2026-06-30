@@ -1,4 +1,5 @@
 import { StrictMode } from 'react'
+import { Toaster } from 'react-hot-toast';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from "react-router-dom";
 import router from './layouts/Routes.jsx';
@@ -14,6 +15,7 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
       <ModalProvider>
+        <Toaster/>
         <RouterProvider router={router} />
       </ModalProvider>
     </AuthProvider>

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from 'axios';
+import apiClient from "../utils/apiClient.js";
 
 // Material UI Icons for a polished empty state
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
@@ -12,7 +12,7 @@ const Orders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const resp = await axios.get('http://localhost:3002/api/portfolio/orders',{withCredentials:true});
+        const resp = await apiClient.get('/portfolio/orders');
         setOrders(resp.data);
       } catch (err) {
         console.log(err);

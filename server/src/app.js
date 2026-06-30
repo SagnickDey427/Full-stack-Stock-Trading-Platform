@@ -6,6 +6,7 @@ const AuthRouter = require('./routes/AuthRoutes.js');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const cookieParser = require("cookie-parser");
+const rateLimiter = require('./middlewares/rateLimit.js');
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(rateLimiter);
 
 
 app.use('/api/seed',seedRouter);

@@ -1,4 +1,3 @@
-import React from "react";
 import { useAuth } from "../context/AuthContext";
 
 const Summary = () => {
@@ -28,7 +27,7 @@ const Summary = () => {
             </span>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between flex-grow gap-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between grow gap-6">
             {/* Primary Metric (Left) */}
             <div className="flex-1">
               <h3 className="text-3xl font-bold text-gray-800">₹{user.funds}</h3>
@@ -62,7 +61,7 @@ const Summary = () => {
             </span>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between flex-grow gap-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between grow gap-6">
             {/* Primary Metric (Left) - Styled for Profit */}
             <div className="flex-1">
               <h3 className="text-3xl font-bold text-green-600 flex items-baseline gap-2">

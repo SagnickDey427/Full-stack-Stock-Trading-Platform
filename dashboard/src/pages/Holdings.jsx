@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { getCalculatedHoldings } from "../utils/calculateHoldings.js";
-import axios from 'axios';
 import { VerticalGraph } from "../graphs/VerticalGraph.jsx";
+import apiClient from "../utils/apiClient.js";
 
 const Holdings = () => {
   const [holdings, setHoldings] = useState([]);
@@ -11,9 +11,7 @@ const Holdings = () => {
     // 1. Declare the async function INSIDE the useEffect
     const fetchHoldings = async () => {
       try {
-        const response = await axios.get('http://localhost:3002/api/portfolio/holdings',{
-          withCredentials:true
-        });
+        const response = await apiClient.get('/portfolio/holdings');
         // 2. Only store the raw data in state
         setHoldings(response.data);
       } catch (err) {
